@@ -1,0 +1,27 @@
+Etapa 1 — gerar_dataset.py é chamado
+
+→ Cria o arquivo dataset_plantas.csv do zero: 100 linhas com cor_folha, umidade_solo, tamanho e diagnostico (o "histórico" que um agrônomo teria registrado). Ele usa o sensores.py por baixo dos panos para simular leituras realistas com ruído.
+
+Etapa 2 — treinar_modelo.py é chamado
+
+→ Lê o CSV com pandas, separa 80% para treino e 20% para teste, treina o GaussianNB (Naive Bayes), imprime a acurácia e a matriz de confusão no terminal, e salva o modelo treinado em modelo_naive_bayes.pkl.
+
+Etapa 3 — estufa.py é usado (classe Estufa)
+
+→ Cria uma matriz 5x5 de objetos Planta. Cada planta recebe um estado real aleatório (Saudável/Sede/Doente) e uma leitura de sensores com ruído (via sensores.py). Isso existe só na memória (RAM) durante a execução — não gera arquivo.
+
+Etapa 4 — agente.py é usado (classe AgenteAgricultor)
+
+→ O agente percorre célula por célula da estufa. Para cada planta:
+
+Percebe os sensores (cor, umidade, tamanho)
+
+Raciocina: manda essa leitura pro modelo (modelo_naive_bayes.pkl carregado em memória) e recebe o diagnóstico
+
+Age: rega, aplica defensivo ou ignora — descontando água/bateria/defensivo. Se o recurso acabou, ele registra isso e pula a ação (comportamento racional).
+
+No fim, imprime um relatório com acertos, erros e recursos restantes.
+
+Saída no terminal: tudo isso aparece impresso na tela conforme roda (você vê a acurácia do treino, o mapa da estufa, e o log linha a linha do agente agindo). Se quiser guardar esse log num arquivo de texto (como fiz com saida_execucao.txt), basta rodar:
+
+bashpython main.py > saida_execucao.txt
