@@ -72,7 +72,10 @@ class Estufa:
         return contagem
 
     def imprimir_mapa(self, mostrar_estado_real=False):
-        simbolos = {"Saudavel": "🟢", "Sede": "🟡", "Doente": "🔴"}
+        # Usamos letras simples (e não emojis) porque o terminal padrão do
+        # Windows (cp1252) não consegue exibir caracteres unicode como 🟢🟡🔴,
+        # o que gera UnicodeEncodeError.
+        simbolos = {"Saudavel": "[S]", "Sede": "[X]", "Doente": "[D]"}
         for linha in self.grid:
             if mostrar_estado_real:
                 print(" ".join(simbolos[p.estado_real] for p in linha))
@@ -80,7 +83,7 @@ class Estufa:
                 marca = []
                 for p in linha:
                     if not p.foi_visitada:
-                        marca.append("⬜")
+                        marca.append("[ ]")
                     else:
-                        marca.append(simbolos.get(p.diagnostico_dado_agente, "❔"))
+                        marca.append(simbolos.get(p.diagnostico_dado_agente, "[?]"))
                 print(" ".join(marca))
